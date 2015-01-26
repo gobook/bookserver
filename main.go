@@ -1,21 +1,47 @@
 package main
 
-import "github.com/lunny/tango"
+import (
+	"fmt"
 
-var (
-	ReposRootPath string
-	BooksRootPath string
+	"github.com/gobook/bookserver/conf"
+	"github.com/gobook/bookserver/models"
+	"github.com/gobook/bookserver/routers"
+	"github.com/lunny/tango"
+	"github.com/tango-contrib/renders"
 )
 
 func main() {
-	ReposRootPath = "./repos"
-	BooksRootPath = "./books"
+	err := conf.Init()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = models.Init()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	t := tango.Classic()
-	t.Use(tango.Static(tango.StaticOptions{
-		RootPath: BooksRootPath,
-		Prefix:   "read",
-	}))
-	t.Any("/github", new(GithubPush))
-	t.Run()
+	t.Use(
+		tango.Static(tango.StaticOptions{
+			RootPath: conf.BooksRootPath,
+			Prefix:   "read",
+		}),
+		renders.New(renders.Options{
+			Reload:    t.Mode == tango.Dev,
+			Directory: "templates",
+			//Extensions: []string{".html"},
+			Vars: renders.T{
+				"AppUrl":  "/",
+				"AppLogo": "/",
+			},
+		}),
+	)
+
+	t.Get("/", new(routers.Home))
+	t.Any("/github", new(routers.GithubPush))
+
+	t.Run(conf.Listen)
 }

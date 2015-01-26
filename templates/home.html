@@ -1,0 +1,32 @@
+{{template "base/base.html" .}}
+{{template "base/common.html" .}}
+
+{{define "extra_head"}}
+    <title>Gobook</title>
+{{end}}
+
+{{define "body"}}
+	{{$appUrl := .AppUrl}}
+	<div class="row">
+	<h1>最新电子书</h1>
+	{{range .books}}
+	<div class="thumbnail col-md-3" style="margin:10px;">
+	  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="200"></a>
+	    <div class="caption">
+	      {{.Name}}
+	    </div>
+	</div>
+	{{end}}
+</div>
+<div class="row">
+	<h1>最近更新</h1>
+	{{range .books}}
+	<div class="thumbnail col-md-3" style="margin:10px;">
+	  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="250"></a>
+	    <div class="caption">
+	      {{.Name}}
+	    </div>
+	</div>
+	{{end}}
+</div>
+{{end}}

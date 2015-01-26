@@ -1,4 +1,4 @@
-package main
+package routers
 
 import (
 	"archive/zip"
@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/gobook/bookserver/conf"
 	"github.com/gobook/gobook"
 	"github.com/lunny/tango"
 )
@@ -74,14 +75,14 @@ func (g *GithubPush) Get() {
 }
 
 func (g *GithubPush) makebook(book string) {
-	dstDir := filepath.Join(ReposRootPath, book)
+	dstDir := filepath.Join(conf.ReposRootPath, book)
 	err := downBook(dstDir, book)
 	if err != nil {
 		g.Error("GithubPush:", err)
 		return
 	}
 
-	err = gobook.MakeBook(filepath.Join(BooksRootPath, book), dstDir)
+	err = gobook.MakeBook(filepath.Join(conf.BooksRootPath, book), dstDir)
 	if err != nil {
 		g.Error("GithubPush:", err)
 		return
