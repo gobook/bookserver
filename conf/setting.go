@@ -2,6 +2,7 @@ package conf
 
 import (
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/lunny/config"
 )
 
 var (
@@ -19,14 +20,19 @@ var (
 )
 
 func Init() error {
+	cfg, err := LoadConfig()
+	if err != nil {
+		return err
+	}
+
 	ReposRootPath = "./repos"
 	BooksRootPath = "./books"
-	Listen = ":8000"
+	Listen = cfg.Get("listen")
 	DriverName = "mysql"
-	DataSourceName = "root:872a8956@/gobook?charset=utf8"
+	DataSourceName = cfg.Get("datasource_name")
 	return nil
 }
 
-func LoadConfig() error {
-	return nil
+func LoadConfig() (*config.Config, error) {
+	return config.Load("./cfg.ini")
 }

@@ -42,6 +42,8 @@ func main() {
 
 	t.Get("/", new(routers.Home))
 	t.Any("/github", new(routers.GithubPush))
+	t.Get("/github/auth", new(routers.Github))
+	t.Get("/github/callback", new(routers.GithubCallback))
 
 	t.Run(conf.Listen)
 }
