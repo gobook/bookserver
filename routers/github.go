@@ -1,8 +1,9 @@
 package routers
 
+/*
 import (
 	"github.com/lunny/tango"
-	"github.com/google/go-github"
+	"github.com/google/go-github/github"
 )
 
 type Github struct {
@@ -10,8 +11,7 @@ type Github struct {
 }
 
 func (Github) Get() {
-	
-	"https://github.com/login/oauth/authorize"
+	url := "https://github.com/login/oauth/authorize"
 
 	t := &oauth.Transport{
 	  Token: &oauth.Token{AccessToken: ""},
@@ -29,4 +29,4 @@ type GithubCallback struct {
 
 func (GithubCallback) Get() {
 
-}
+}*/
