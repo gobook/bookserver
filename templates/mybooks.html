@@ -1,0 +1,16 @@
+{{template "base/base.html" .}}
+{{template "base/common.html" .}}
+
+{{define "extra_head"}}
+    <title>我的书籍 - Gobook</title>
+{{end}}
+
+{{define "body"}}
+<ul>
+{{range .books}}
+	<li><a href="/read/{{.RepoPath}}">{{.Name}}</a>&nbsp; &nbsp; 
+	<a href="/mybooks/{{.Id}}/update" class="btn btn-success btn-sm">更新</a>&nbsp; 
+	<a href="/mybooks/{{.Id}}/down" class="btn btn-danger btn-sm">下架</a></li>
+{{end}}
+</ul>
+{{end}}

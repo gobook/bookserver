@@ -6,27 +6,37 @@
 {{end}}
 
 {{define "body"}}
-	{{$appUrl := .AppUrl}}
-	<div class="row">
-	<h1>最新电子书</h1>
-	{{range .books}}
-	<div class="thumbnail col-md-3" style="margin:10px;">
-	  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="200"></a>
-	    <div class="caption">
-	      {{.Name}}
-	    </div>
-	</div>
-	{{end}}
-</div>
 <div class="row">
-	<h1>最近更新</h1>
-	{{range .books}}
-	<div class="thumbnail col-md-3" style="margin:10px;">
-	  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="250"></a>
-	    <div class="caption">
-	      {{.Name}}
-	    </div>
+	<div class="col-md-9">
+		{{$appUrl := .AppUrl}}
+		<div class="row">
+			<h1>最新电子书</h1>
+			{{range .books}}
+			<div class="thumbnail col-md-3" style="margin:10px;">
+			  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="200"></a>
+			    <div class="caption">
+			      {{.Name}}
+			    </div>
+			</div>
+			{{end}}
+		</div>
+		<div class="row">
+			<h1>最近更新</h1>
+			{{range .books}}
+			<div class="thumbnail col-md-3" style="margin:10px;">
+			  <a href="{{$appUrl}}read/{{.RepoPath}}/"><img src="{{$appUrl}}read/{{.RepoPath}}/{{.Cover}}" alt="{{.Name}}" height="250"></a>
+			    <div class="caption">
+			      {{.Name}}
+			    </div>
+			</div>
+			{{end}}
+		</div>
 	</div>
-	{{end}}
+	<div class="col-md-3">
+		<h1>登陆</h1>
+		<br/>
+		<br/>
+		<a href="/auth/login/github" class="btn btn-primary btn-lg">GitHub</a>
+	</div>
 </div>
 {{end}}

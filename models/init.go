@@ -9,16 +9,12 @@ var (
 	orm *xorm.Engine
 )
 
-func Init() error {
-	var err error
+func Init() (err error) {
 	orm, err = xorm.NewEngine(conf.DriverName, conf.DataSourceName)
 	if err != nil {
-		return err
+		return
 	}
 
-	err = orm.Sync2(new(Book), new(Author), new(Class))
-	if err != nil {
-		return err
-	}
-	return nil
+	err = orm.Sync2(new(Book), new(Class), new(User), new(Theme))
+	return
 }

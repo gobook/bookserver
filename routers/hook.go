@@ -25,7 +25,7 @@ type GithubPush struct {
 type PushInfo struct {
 }
 
-func downBook(dstDir string, book string) error {
+func downGithubBook(dstDir string, book string) error {
 	url := fmt.Sprintf("https://codeload.github.com/%s/zip/master", book)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -76,7 +76,7 @@ func (g *GithubPush) Get() {
 
 func (g *GithubPush) makebook(book string) {
 	dstDir := filepath.Join(conf.ReposRootPath, book)
-	err := downBook(dstDir, book)
+	err := downGithubBook(dstDir, book)
 	if err != nil {
 		g.Error("GithubPush:", err)
 		return

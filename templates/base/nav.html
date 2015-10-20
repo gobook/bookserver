@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="logo" href="{{.AppUrl}}">
-                <img src="{{.AppLogo}}">
+                <img src="{{.AppLogo}}" style="margin:3px;">
             </a>
         </div>
         <!--<form id="navbar-search" class="navbar-form navbar-left" role="search" action="{{.AppUrl}}search" method="GET">
@@ -18,9 +18,20 @@
         </form>-->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{.AppUrl}}">GoBook</a></li>
+            <li><a href="{{.AppUrl}}"><h4>GoBook</h4></a></li>
+             {{if .islogin}}
+            <li><a href="{{.AppUrl}}myBooks">我的书籍</a></li>
+            <li><a href="{{.AppUrl}}publish">发布</a></li>
+            {{end}}
             </ul>
-
+        <ul class="nav navbar-nav navbar-right">
+        {{if .islogin}}
+        <li><a href="#">{{.user}}</a></li>
+        <li><a href="/logout">退出</a></li>
+        {{else}}
+        <li><a href="#">游客</a></li>
+        {{end}}
+        </ul>
         </div>
     </div>
 </nav>

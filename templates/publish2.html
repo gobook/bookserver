@@ -1,0 +1,33 @@
+{{template "base/base.html" .}}
+{{template "base/common.html" .}}
+
+{{define "extra_head"}}
+    <title>Publish xxx - Gobook</title>
+{{end}}
+
+{{define "body"}}
+<form method="POST" class="col-md-4" enctype="multipart/form-data">
+{{.xsrf_html}}
+<div class="form-group">
+    <label for="githubName">来源</label>
+    <input class="form-control" name="githubName" type="text" value="{{.path}}" readonly="true" />
+</div>
+<div class="form-group">
+    <label for="name">书名</label>
+    <input class="form-control" name="name" type="text"/>
+</div>
+<div class="form-group">
+    <label for="cover">封面</label>
+    <input class="form-control" name="cover" type="file"/>
+</div>
+<div class="form-group">
+    <label for="autoUpdated">主题</label>
+    <input class="form-control" name="theme" type="radio" value="gitbook"/>
+</div>
+<div class="form-group">
+    <label for="autoUpdated">自动更新</label>
+    <input class="form-control" name="autoUpdated" type="checkbox"/>
+</div>
+<input type="submit" value="发布" class="btn btn-primary">
+</form>
+{{end}}

@@ -1,0 +1,26 @@
+{{template "base/base.html" .}}
+{{template "base/common.html" .}}
+
+{{define "extra_head"}}
+    <title>Login - Gobook</title>
+{{end}}
+
+{{define "body"}}
+<div>
+<form method="POST" class="col-md-4" enctype="multipart/form-data">
+{{.XsrfFormHtml}}
+<div class="form-group">
+    <label for="githubName">账号</label>
+    <input class="form-control" name="name" type="text"/>
+</div>
+<div class="form-group">
+    <label for="name">密码</label>
+    <input class="form-control" name="passwd" type="text"/>
+</div>
+<input type="submit" value="登录" class="btn btn-primary">
+	</form>
+	</div>
+<div>
+	<a href="/auth/login/github" class="btn btn-primary btn-lg">GitHub</a>
+	</div>
+{{end}}
