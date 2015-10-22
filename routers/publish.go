@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"github.com/go-xweb/uuid"
 	"github.com/gobook/bookserver/conf"
 	"github.com/gobook/bookserver/models"
+	"github.com/gobook/gobook"
 	"github.com/google/go-github/github"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/renders"
@@ -50,6 +52,13 @@ func (p *Publish) Get() error {
 	}
 
 	// TODO: check repos' format
+	bookType, err := detectBookType(path)
+	if err != nil {
+		return err
+	}
+	if bookType != GoBookType {
+		return errors.New("该工程不符合书籍格式，未找到SUMMARY.md")
+	}
 
 	return p.Render("publish2.html", renders.T{
 		"path": path,
@@ -62,16 +71,33 @@ func (p *Publish) Post() error {
 		return tango.NotFound()
 	}
 
-	name := p.Form("name")
 	cover, _, err := p.Req().FormFile("cover")
 	if err != nil && err != http.ErrMissingFile {
 		return err
 	}
 
+	hasCover := (err != http.ErrMissingFile)
+
+	name := p.Form("name")
+	if len(name) <= 0 {
+		panic("name is empty")
+	}
+
+	dstDir := filepath.Join(conf.ReposRootPath, path)
+	err = downGithubBook(dstDir, path)
+	if err != nil {
+		return err
+	}
+
+	bk, err := gobook.MakeBook(filepath.Join(conf.BooksRootPath, path), dstDir)
+	if err != nil {
+		return err
+	}
+
 	var saveName string
-	if err == nil {
+	if hasCover {
 		saveName = uuid.New()
-		savePath := filepath.Join(conf.ImagesRootPath, saveName)
+		savePath := filepath.Join(conf.BooksRootPath, path, saveName)
 		dest, err := os.Create(savePath)
 		if err != nil {
 			return err
@@ -82,6 +108,10 @@ func (p *Publish) Post() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if len(saveName) == 0 {
+		saveName = bk.Cover
 	}
 
 	book := &models.Book{
@@ -95,8 +125,6 @@ func (p *Publish) Post() error {
 	if err != nil {
 		return err
 	}
-
-	// TODO: download the book and publish it
 
 	return p.Render("publish_success.html", renders.T{
 		"book": book,

@@ -8,9 +8,10 @@
 {{define "body"}}
 <ul>
 {{range .books}}
-	<li><a href="/read/{{.RepoPath}}">{{.Name}}</a>&nbsp; &nbsp; 
-	<a href="/mybooks/{{.Id}}/update" class="btn btn-success btn-sm">更新</a>&nbsp; 
-	<a href="/mybooks/{{.Id}}/down" class="btn btn-danger btn-sm">下架</a></li>
+	<li><a href="/read/{{.RepoPath}}/" target="_blank">{{.Name}}</a>&nbsp; <a href="https://{{.RepoPath}}">{{.RepoPath}}</a>&nbsp; 
+	<a href="/myBooks/{{.Id}}/update" class="btn btn-success btn-sm">更新</a>&nbsp; 
+	<a href="/myBooks/{{.Id}}/down" class="btn btn-warning btn-sm">下架</a>&nbsp; 
+	<a href="/myBooks/{{.Id}}/del" class="btn btn-danger btn-sm">删除</a></li>
 {{end}}
 </ul>
 {{end}}

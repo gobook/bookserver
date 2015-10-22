@@ -8,7 +8,7 @@
 {{define "body"}}
 <ul>
 {{range .repositories}}
-	<li><a href="{{.HTMLURL}}" target=_blank>{{.FullName}}</a>&nbsp; <a href="/publish/github.com/{{.FullName}}">发布</a></li>
+	<li><a href="{{.HTMLURL}}" target=_blank>{{.FullName}}</a>&nbsp; <a href="/publish/github.com/{{.FullName}}" class="btn btn-sm btn-success">发布</a></li>
 {{end}}
 </ul>
 {{end}}

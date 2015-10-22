@@ -26,7 +26,10 @@ type PushInfo struct {
 }
 
 func downGithubBook(dstDir string, book string) error {
-	url := fmt.Sprintf("https://codeload.github.com/%s/zip/master", book)
+	if !strings.HasPrefix(book, "github.com/") {
+		book = "github.com/" + book
+	}
+	url := fmt.Sprintf("https://codeload.%s/zip/master", book)
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -82,7 +85,7 @@ func (g *GithubPush) makebook(book string) {
 		return
 	}
 
-	err = gobook.MakeBook(filepath.Join(conf.BooksRootPath, book), dstDir)
+	_, err = gobook.MakeBook(filepath.Join(conf.BooksRootPath, book), dstDir)
 	if err != nil {
 		g.Error("GithubPush:", err)
 		return

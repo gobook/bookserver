@@ -10,17 +10,21 @@ const (
 )
 
 type Book struct {
-	Id          int64
-	Name        string
-	AuthorId    int64  `xorm:"index"`
-	RepoPath    string `xorm:"unique"`
-	Cover       string
-	Theme       string
-	Token       string
-	AutoUpdated bool
-	Status      BookStatus
-	Created     time.Time `xorm:"created"`
-	Updated     time.Time `xorm:"updated"`
+	Id           int64
+	Name         string
+	AuthorId     int64  `xorm:"index"`
+	RepoPath     string `xorm:"unique"`
+	Cover        string
+	Theme        string
+	Token        string
+	AutoUpdated  bool
+	Lang         string // 书籍语言
+	AuthorName   string // 显示的书籍作者名称
+	Status       BookStatus
+	LastUpdated  time.Time // 书籍最后更新时间
+	LastCommitId string    // 最后一次更新的CommitId
+	Created      time.Time `xorm:"created"`
+	Updated      time.Time `xorm:"updated"`
 }
 
 func AddBook(book *Book) error {
@@ -30,13 +34,13 @@ func AddBook(book *Book) error {
 
 func RecentBooks() ([]*Book, error) {
 	var books = make([]*Book, 0)
-	err := orm.Desc("id").Find(&books)
+	err := orm.Where("status = ?", BookOnline).Desc("id").Find(&books)
 	return books, err
 }
 
 func LastUpdatedBooks() ([]*Book, error) {
 	var books = make([]*Book, 0)
-	err := orm.Desc("updated").Find(&books)
+	err := orm.Where("status = ?", BookOnline).Desc("updated").Find(&books)
 	return books, err
 }
 
