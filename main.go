@@ -62,6 +62,7 @@ func main() {
 	t.Group("/myBooks", func(g *tango.Group) {
 		g.Get("/", new(routers.MyBooks))
 		g.Get("/:id/down", new(routers.DownBook))
+		g.Get("/:id/up", new(routers.UpBook))
 		g.Get("/:id/update", new(routers.UpdateBook))
 		g.Get("/:id/del", new(routers.DelBook))
 	})

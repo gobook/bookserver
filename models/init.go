@@ -15,6 +15,16 @@ func Init() (err error) {
 		return
 	}
 
-	err = orm.Sync2(new(Book), new(Class), new(User), new(Theme))
+	err = orm.Sync2(new(Book), new(Class), new(User), new(Theme), new(History))
+	if err != nil {
+		return
+	}
+
+	err = initClasses()
+	if err != nil {
+		return
+	}
+
+	err = initThemes()
 	return
 }

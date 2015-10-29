@@ -24,9 +24,15 @@ func (h *Home) Get() error {
 		loginName = h.LoginUserName()
 	}
 
+	classes, err := models.FindFirstClasses()
+	if err != nil {
+		return err
+	}
+
 	return h.Render("home.html", renders.T{
 		"books":        books,
 		"XsrfFormHtml": h.XsrfFormHtml(),
 		"user":         loginName,
+		"classes":      classes,
 	})
 }

@@ -10,7 +10,9 @@
 {{range .books}}
 	<li><a href="/read/{{.RepoPath}}/" target="_blank">{{.Name}}</a>&nbsp; <a href="https://{{.RepoPath}}">{{.RepoPath}}</a>&nbsp; 
 	<a href="/myBooks/{{.Id}}/update" class="btn btn-success btn-sm">更新</a>&nbsp; 
-	<a href="/myBooks/{{.Id}}/down" class="btn btn-warning btn-sm">下架</a>&nbsp; 
+	{{if eq .Status 0}}
+	<a href="/myBooks/{{.Id}}/down" class="btn btn-warning btn-sm">下架</a>
+	{{else}}<a href="/myBooks/{{.Id}}/up" class="btn btn-info btn-sm">上架</a>{{end}}&nbsp; 
 	<a href="/myBooks/{{.Id}}/del" class="btn btn-danger btn-sm">删除</a></li>
 {{end}}
 </ul>

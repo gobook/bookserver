@@ -56,6 +56,35 @@ func (d *DownBook) Get() error {
 	return nil
 }
 
+type UpBook struct {
+	AuthBase
+	flash.Flash
+}
+
+func (d *UpBook) Get() error {
+	id := d.ParamInt64(":id")
+	var book models.Book
+	has, err := models.GetById(id, &book)
+	if err != nil {
+		return err
+	}
+	if !has {
+		return errors.New("书籍不存在")
+	}
+
+	if book.AuthorId != d.LoginUserId() {
+		return errors.New("没有权限")
+	}
+
+	err = models.UpdateById(id, &models.Book{Status: models.BookOnline}, "status")
+	if err != nil {
+		return err
+	}
+	d.Flash.Set("info", "书籍 "+book.Name+" 上架成功")
+	d.Redirect("/myBooks")
+	return nil
+}
+
 type UpdateBook struct {
 	AuthBase
 	flash.Flash

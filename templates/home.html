@@ -33,10 +33,12 @@
 		</div>
 	</div>
 	<div class="col-md-3">
-		<h1>登陆</h1>
-		<br/>
-		<br/>
-		<a href="/auth/login/github" class="btn btn-primary btn-lg">GitHub</a>
+		<h1>分类</h1>
+		<ul>
+		{{range .classes}}
+		<li>{{.Name}}</li>
+		{{end}}
+	</ul>
 	</div>
 </div>
 {{end}}

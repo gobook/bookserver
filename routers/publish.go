@@ -51,7 +51,6 @@ func (p *Publish) Get() error {
 		})
 	}
 
-	// TODO: check repos' format
 	bookType, err := detectBookType(path)
 	if err != nil {
 		return err
@@ -121,7 +120,8 @@ func (p *Publish) Post() error {
 		RepoPath: path,
 	}
 
-	err = models.Insert(book)
+	var commitId string
+	err = models.PublishBook(book, commitId)
 	if err != nil {
 		return err
 	}
